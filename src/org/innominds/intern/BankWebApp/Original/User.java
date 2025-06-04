@@ -3,6 +3,7 @@ package org.innominds.intern.BankWebApp.Original;
 //import java.sql.Connection;
 //import java.sql.PreparedStatement;
 //import java.sql.SQLException;
+import org.innominds.intern.BankWebApp.Database.PasswordUtils;
 
 /**
  *
@@ -64,11 +65,12 @@ public class User {
 	
 	/**
 	 * Checks to see if the passed String and the User's password when creating the account match.
-	 * @param pass
-	 * @return
+	 * Uses BCrypt to verify the password against the stored hash.
+	 * @param plainTextPassword The password to check
+	 * @return true if the password matches, false otherwise
 	 */
-	public boolean checkPassword(String pass){
-		return pass.equals(password);
+	public boolean checkPassword(String plainTextPassword){
+		return PasswordUtils.checkPassword(plainTextPassword, password);
 	}
 	
 	public void deposit(int amt){

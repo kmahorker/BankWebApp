@@ -27,9 +27,10 @@ public class UserJdbcTemplate implements UserDao {
 	@Override
 	public void create(String name, String username, String password,
 			Integer balance) {
+		// Hash the password before storing it in the database
+		String hashedPassword = PasswordUtils.hashPassword(password);
 		String SQL = "INSERT INTO accounts VALUES(?,?,?,?)";
-		jdbcTemplateObject.update(SQL, name,username, password, balance);
-
+		jdbcTemplateObject.update(SQL, name, username, hashedPassword, balance);
 	}
 
 	@Override
@@ -74,7 +75,16 @@ public class UserJdbcTemplate implements UserDao {
 			return false;
 		}
 		return true;
-		
+	}
+	
+	/**
+	 * Get the JdbcTemplate object for direct database operations.
+	 * Used primarily for password migration.
+	 * 
+	 * @return The JdbcTemplate object
+	 */
+	public JdbcTemplate getJdbcTemplateObject() {
+		return this.jdbcTemplateObject;
 	}
 
 }
