@@ -1,5 +1,7 @@
 package org.innominds.intern.BankWebApp.Original;
 
+import org.innominds.intern.BankWebApp.PasswordHasher;
+
 //import java.sql.Connection;
 //import java.sql.PreparedStatement;
 //import java.sql.SQLException;
@@ -64,11 +66,12 @@ public class User {
 	
 	/**
 	 * Checks to see if the passed String and the User's password when creating the account match.
-	 * @param pass
-	 * @return
+	 * Uses secure password verification.
+	 * @param pass The password to check
+	 * @return true if the password matches, false otherwise
 	 */
 	public boolean checkPassword(String pass){
-		return pass.equals(password);
+		return PasswordHasher.verifyPassword(pass, password);
 	}
 	
 	public void deposit(int amt){
