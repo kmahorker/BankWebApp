@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.innominds.intern.BankWebApp.PasswordHasher;
 import org.innominds.intern.BankWebApp.Universal;
 import org.innominds.intern.BankWebApp.UserFormBean;
 import org.innominds.intern.BankWebApp.Database.UserJdbcTemplate;
@@ -105,8 +106,9 @@ public class SignupCheckServlet extends HttpServlet {
 		}
 		request.getSession().setAttribute("formHandler", formHandler);
 		if (validation) {
-
-			jdbc.create(name, username, password, bal);
+			// Hash the password before storing it in the database
+			String hashedPassword = PasswordHasher.hashPassword(password);
+			jdbc.create(name, username, hashedPassword, bal);
 			response.sendRedirect("Login");
 
 			// rd = request.getRequestDispatcher("LoginPage.jsp"); //TODO:
